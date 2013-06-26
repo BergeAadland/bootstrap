@@ -39,6 +39,9 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position'])
 
       var selected;
 
+      //maximal number of items listed in the popover
+      var maxItems = originalScope.$eval(attrs.typeaheadMaxItems || 10);
+
       //minimal no of characters that needs to be entered before typeahead kicks-in
       var minSearch = originalScope.$eval(attrs.typeaheadMinLength) || 1;
 
@@ -91,8 +94,9 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position'])
               scope.activeIdx = 0;
               scope.matches.length = 0;
 
+              var maxIndex = Math.min(maxItems, matches.length);
               //transform labels
-              for(var i=0; i<matches.length; i++) {
+              for (var i = 0; i < maxIndex; i++) {                            
                 locals[parserResult.itemName] = matches[i];
                 scope.matches.push({
                   label: parserResult.viewMapper(scope, locals),
